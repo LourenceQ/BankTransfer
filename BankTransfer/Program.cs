@@ -7,7 +7,7 @@ namespace BankTransfer
 {
     class Program
     {
-        static List<Account> AccountList = new List<Account>();
+        static List<Account> accountList = new List<Account>();
         static void Main(string[] args)
         {
             string userOptions = GetUserOp();
@@ -38,7 +38,7 @@ namespace BankTransfer
                         throw new ArgumentOutOfRangeException();
                 }
                 userOptions = GetUserOp();
-            } 
+            }
             System.Console.WriteLine("Obrigado por utilizar nossos serviços.");
         }
 
@@ -63,29 +63,58 @@ namespace BankTransfer
             return userOp;
         }
 
-        private static void Clear()
-        {
-            throw new NotImplementedException();
-        }
-
         private static void AccountDeposit()
         {
-            throw new NotImplementedException();
+            System.Console.WriteLine("Informe o número da conta: ");
+            int accountIndex = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("informe o valor para depósito: ");
+            decimal depositAmount = decimal.Parse(Console.ReadLine());
+
+            accountList[accountIndex].Deposit(depositAmount);
         }
 
         private static void AccountWithDraw()
         {
-            throw new NotImplementedException();
+            System.Console.WriteLine("Informe o número da conta: ");
+            int accountIndex = int.Parse(Console.ReadLine());
+
+            System.Console.WriteLine("Iniforme o valor para saque: ");
+            decimal depositAmount = decimal.Parse(Console.ReadLine());
+
+            accountList[accountIndex].WithDraw(depositAmount);
         }
 
         private static void AccountTransfer()
         {
-            throw new NotImplementedException();
+            System.Console.WriteLine();
+            int accountIndexOrigin = int.Parse(Console.ReadLine());
+
+            System.Console.WriteLine();
+            int accountIndexDestination = int.Parse(Console.ReadLine());
+
+            System.Console.Write("Informe o valor a ser transferido: ");
+            decimal transferAmount = decimal.Parse(Console.ReadLine());
+
+            accountList[accountIndexOrigin].Transfer(transferAmount, accountList[accountIndexDestination]);
         }
 
         private static void AccountLists()
         {
-            throw new NotImplementedException();
+            System.Console.WriteLine("Listar contas");
+
+            if (accountList.Count == 0)
+            {
+                System.Console.WriteLine("Não existem contas cadastrdas.");
+                return;
+            }
+            
+            for (int i = 0; i < accountList.Count; i++)
+            {
+                Account userAccount = accountList[i];
+                System.Console.Write("#{0} - ", i);
+                System.Console.WriteLine(userAccount);
+            }
         }
 
         private static void AccountCreate()
@@ -104,15 +133,15 @@ namespace BankTransfer
             System.Console.Write("Digite o crédito: ");
             decimal accountDeposit = decimal.Parse(Console.ReadLine());
 
-          
+
             Account newAccount = new Account(accountType: (AccountType)accountTypeCreate,
                                              name: accountUserName,
                                              balance: accountBalance,
                                              credit: accountDeposit);
-            AccountList.Add(newAccount);
+            accountList.Add(newAccount);
 
         }
 
-        
+
     }
 }

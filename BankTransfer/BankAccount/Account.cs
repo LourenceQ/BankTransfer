@@ -31,7 +31,7 @@ namespace BankTransfer.BankAccount
                 return false;
             }
 
-            this.Credit -= withDrawAmount;
+            this.Balance -= withDrawAmount;
             System.Console.WriteLine("Saldo atual da conta de {0} é {1}", this.Name, this.Balance);
 
             return true;

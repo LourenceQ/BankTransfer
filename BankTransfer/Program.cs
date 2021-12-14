@@ -30,6 +30,8 @@ namespace BankTransfer
                 responseList.Add(myString[i]);
             }
 
+            responseList.RemoveRange(0,1);
+            
             // print list itens
             for (int i = 0; i < responseList.Count; i++)
             {

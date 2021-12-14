@@ -6,56 +6,75 @@ using BankTransfer.Enum;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace BankTransfer
 {
     class Program
     {
-        // public async Task<string> GetExchangeRate(string from, string to)
-        // {
-        //     //Examples:
-        //     //from = "EUR"
-        //     //to = "USD"
-        //     using (var client = new System.Net.Http.HttpClient())
-        //     {
-        //         try
-        //         {
-        //             client.BaseAddress = new Uri("https://free.currencyconverterapi.com");
-        //             var response = await client.GetAsync($"/api/v6/convert?q={from}_{to}&compact=y");
-        //             var stringResult = await response.Content.ReadAsStringAsync();
-        //             dynamic data = Object.Parse(stringResult);
-        //             //data = {"EUR_USD":{"val":1.140661}}
-        //             //I want to return 1.140661
-        //             //EUR_USD is dynamic depending on what from/to is
-        //             return data.?????.val;
-        //         }
-        //         catch (System.Net.Http.HttpRequestException httpRequestException)
-        //         {
-        //             Console.WriteLine(httpRequestException.StackTrace);
-        //             return "Error calling API. Please do manual lookup.";
-        //         }
-        //     }
-        // }
-        static List<Account> accountList = new List<Account>();
-        static void Main(string[] args)
+        private static readonly HttpClient client = new HttpClient();
+
+        private static async Task ProcessRepositories()
         {
-            HttpClient client = new HttpClient();
-            var responseTask = client.GetAsync("https://api.currencyfreaks.com/supported-currencies");
-            
-            responseTask.Wait();
+            List<string> responseList = new List<string>();
 
-            if (responseTask.IsCompleted)
+            var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/latest?apikey=5470ff823cd34acc9c596841a07bb9a2");
+
+            string msg = await stringTask;
+
+            string[] myString = msg.Split(",");
+
+            // add items from string[] to list
+            for (int i = 0; i < myString.Length; i++)
             {
-                var result = responseTask.Result;
-
-                if (result.IsSuccessStatusCode)
-                {
-                    var message = result.Content.ReadAsStringAsync();
-                    responseTask.Wait();
-
-                    System.Console.WriteLine("Menssagem da webapi : " + responseTask.Result);
-                }
+                responseList.Add(myString[i]);
             }
+
+            // print list itens
+            for (int i = 0; i < responseList.Count; i++)
+            {
+                System.Console.WriteLine(responseList[i]);
+            }
+        }
+
+        static List<Account> accountList = new List<Account>();
+        static async Task Main(string[] args)
+        {
+
+            await ProcessRepositories();
+
+
+            // HttpClient client = new HttpClient();
+            // var responseTask = client.GetAsync("https://api.currencyfreaks.com/latest?apikey=5470ff823cd34acc9c596841a07bb9a2");
+
+            // responseTask.Wait();
+
+            // if (responseTask.IsCompleted)
+            // {
+            //     var result = responseTask.Result;
+
+            //     if (result.IsSuccessStatusCode)
+            //     {
+            //         var message = result.Content.ReadAsStringAsync();
+            //         responseTask.Wait();
+
+            //         System.Console.WriteLine("Menssagem da webapi : " + result);
+            //     }
+            // }
+
+            // var client = new RestClient("https://api.currencyfreaks.com/latest
+            // ? apikey = YOUR_APIKEY
+            // & base = GBP
+            // & symbols = EUR, USD, PKR, INR");
+
+            // client.Timeout = -1;
+
+            // var request = new RestRequest(Method.GET);
+
+            // IRestResponse response = client.Execute(request);
+
+            // Console.WriteLine(response.Content);
+
 
 
 

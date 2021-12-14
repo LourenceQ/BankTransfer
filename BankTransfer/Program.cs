@@ -44,40 +44,6 @@ namespace BankTransfer
             await ProcessRepositories();
 
 
-            // HttpClient client = new HttpClient();
-            // var responseTask = client.GetAsync("https://api.currencyfreaks.com/latest?apikey=5470ff823cd34acc9c596841a07bb9a2");
-
-            // responseTask.Wait();
-
-            // if (responseTask.IsCompleted)
-            // {
-            //     var result = responseTask.Result;
-
-            //     if (result.IsSuccessStatusCode)
-            //     {
-            //         var message = result.Content.ReadAsStringAsync();
-            //         responseTask.Wait();
-
-            //         System.Console.WriteLine("Menssagem da webapi : " + result);
-            //     }
-            // }
-
-            // var client = new RestClient("https://api.currencyfreaks.com/latest
-            // ? apikey = YOUR_APIKEY
-            // & base = GBP
-            // & symbols = EUR, USD, PKR, INR");
-
-            // client.Timeout = -1;
-
-            // var request = new RestRequest(Method.GET);
-
-            // IRestResponse response = client.Execute(request);
-
-            // Console.WriteLine(response.Content);
-
-
-
-
             string userOptions = GetUserOp();
 
             while (userOptions.ToUpper() != "X")

@@ -1,15 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using BankTransfer.BankAccount;
 using BankTransfer.Enum;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Net.Http;
 
 namespace BankTransfer
 {
     class Program
     {
+        // public async Task<string> GetExchangeRate(string from, string to)
+        // {
+        //     //Examples:
+        //     //from = "EUR"
+        //     //to = "USD"
+        //     using (var client = new System.Net.Http.HttpClient())
+        //     {
+        //         try
+        //         {
+        //             client.BaseAddress = new Uri("https://free.currencyconverterapi.com");
+        //             var response = await client.GetAsync($"/api/v6/convert?q={from}_{to}&compact=y");
+        //             var stringResult = await response.Content.ReadAsStringAsync();
+        //             dynamic data = Object.Parse(stringResult);
+        //             //data = {"EUR_USD":{"val":1.140661}}
+        //             //I want to return 1.140661
+        //             //EUR_USD is dynamic depending on what from/to is
+        //             return data.?????.val;
+        //         }
+        //         catch (System.Net.Http.HttpRequestException httpRequestException)
+        //         {
+        //             Console.WriteLine(httpRequestException.StackTrace);
+        //             return "Error calling API. Please do manual lookup.";
+        //         }
+        //     }
+        // }
         static List<Account> accountList = new List<Account>();
         static void Main(string[] args)
         {
+            HttpClient client = new HttpClient();
+            var responseTask = client.GetAsync("https://api.currencyfreaks.com/supported-currencies");
+            
+            responseTask.Wait();
+
+            if (responseTask.IsCompleted)
+            {
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var message = result.Content.ReadAsStringAsync();
+                    responseTask.Wait();
+
+                    System.Console.WriteLine("Menssagem da webapi : " + responseTask.Result);
+                }
+            }
+
+
+
             string userOptions = GetUserOp();
 
             while (userOptions.ToUpper() != "X")
@@ -108,7 +157,7 @@ namespace BankTransfer
                 System.Console.WriteLine("Não existem contas cadastrdas.");
                 return;
             }
-            
+
             for (int i = 0; i < accountList.Count; i++)
             {
                 Account userAccount = accountList[i];

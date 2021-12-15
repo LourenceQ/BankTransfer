@@ -8,17 +8,19 @@ using System.Text.Json.Serialization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Linq;
+using System.Globalization;
 
 namespace BankTransfer
 {
     class Program
     {
         private static readonly HttpClient client = new HttpClient();
+        static List<decimal> decimalResponseList = new List<decimal>();
 
         private static async Task ProcessRepositories()
         {
             List<string> responseList = new List<string>();
-            List<decimal> decimalResponseList = new List<decimal>();
+
 
             // var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/latest?apikey=5470ff823cd34acc9c596841a07bb9a2"); // Todas as moedas
             // var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/currency-symbols"); // Todos as abreveações das moedas
@@ -86,6 +88,9 @@ namespace BankTransfer
                     case "5":
                         AccountDeposit();
                         break;
+                    case "6":
+                        QuoteConsult();
+                        break;
                     case "C":
                         Console.Clear();
                         break;
@@ -97,10 +102,22 @@ namespace BankTransfer
             System.Console.WriteLine("Obrigado por utilizar nossos serviços.");
         }
 
+        private static void QuoteConsult()
+        {
+            List<string> currencies = new List<string> { "Rupia Pquistanesa", "Libra Esterlina", "Euro", "Dolar Americano", "Real Brasileiro", "Dinheiro Bitcoin", "Peso Argentino", "Dolar Australiano", "Boliviano", "Bitcoin", "Yuan Renminbi Chinês", "Dolar Canadense" };
+            System.Console.WriteLine("Com base na cotação do Dólar Americano: ");
+            System.Console.WriteLine();
+
+            for (int x = 0; x < decimalResponseList.Count; ++x)
+            {
+                System.Console.WriteLine(currencies[x] + " : " + decimalResponseList[x]);
+            }
+        }
+
         private static string GetUserOp()
         {
             System.Console.WriteLine();
-            System.Console.WriteLine("Bem vindo ao Banco da União");
+            System.Console.WriteLine("Bem vindo ao Banco da União",CultureInfo.InvariantCulture);
             System.Console.WriteLine("Informe a operaçao desejada:");
 
             System.Console.WriteLine("1- Listar Contas");
@@ -108,6 +125,7 @@ namespace BankTransfer
             System.Console.WriteLine("3- Transferência");
             System.Console.WriteLine("4- Sacar");
             System.Console.WriteLine("5- Depositar");
+            System.Console.WriteLine("6- Consultar Cotações de moedas");
             System.Console.WriteLine("C- Limpar Tela");
             System.Console.WriteLine("X- Sair");
             System.Console.WriteLine();
@@ -123,7 +141,7 @@ namespace BankTransfer
             System.Console.WriteLine("Informe o número da conta: ");
             int accountIndex = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("informe o valor para depósito: ");
+            Console.WriteLine("Informe o valor para depósito: ");
             decimal depositAmount = decimal.Parse(Console.ReadLine());
 
             accountList[accountIndex].Deposit(depositAmount);

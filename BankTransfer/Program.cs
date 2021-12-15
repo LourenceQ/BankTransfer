@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Linq;
 
 namespace BankTransfer
 {
@@ -18,7 +19,10 @@ namespace BankTransfer
         {
             List<string> responseList = new List<string>();
 
-            var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/latest?apikey=5470ff823cd34acc9c596841a07bb9a2");
+            // var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/latest?apikey=5470ff823cd34acc9c596841a07bb9a2"); // Todas as moedas
+            // var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/currency-symbols"); // Todos as abreveações das moedas
+
+            var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/latest?apikey=3e8a112f03184081b6d183cd452cac0c&symbols=PKR,GBP,EUR,USD,BRL,BCH,ARS,AUD,BOB,BTC,CNH,CAD");
 
             string msg = await stringTask;
 
@@ -30,15 +34,25 @@ namespace BankTransfer
                 responseList.Add(myString[i]);
             }
 
-            responseList.RemoveRange(0,1);
-            
+            System.Console.WriteLine();
+
+            for (int i = 0; i < responseList.Count; i++)
+            {
+                responseList[i] = responseList[i].Remove(0, 6);
+            }
+            responseList.RemoveRange(0, 2);
+            responseList[0] = responseList[0].Remove(0, 9);
+            responseList[11] = responseList[11].Remove(9, 2);
+
+
             // print list itens
             for (int i = 0; i < responseList.Count; i++)
             {
                 System.Console.WriteLine(responseList[i]);
             }
-        }
 
+        }
+        
         static List<Account> accountList = new List<Account>();
         static async Task Main(string[] args)
         {

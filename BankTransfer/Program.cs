@@ -104,7 +104,7 @@ namespace BankTransfer
 
         private static void QuoteConsult()
         {
-            List<string> currencies = new List<string> { "Rupia Pquistanesa", "Libra Esterlina", "Euro", "Dolar Americano", "Real Brasileiro", "Dinheiro Bitcoin", "Peso Argentino", "Dolar Australiano", "Boliviano", "Bitcoin", "Yuan Renminbi Chinês", "Dolar Canadense" };
+            List<string> currencies = new List<string> { "Rupia Paquistanesa", "Libra Esterlina", "Euro", "Dolar Americano", "Real Brasileiro", "Dinheiro Bitcoin", "Peso Argentino", "Dolar Australiano", "Boliviano", "Bitcoin", "Yuan Renminbi Chinês", "Dolar Canadense" };
             System.Console.WriteLine("Com base na cotação do Dólar Americano: ");
             System.Console.WriteLine();
 

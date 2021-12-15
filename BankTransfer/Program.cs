@@ -18,6 +18,7 @@ namespace BankTransfer
         private static async Task ProcessRepositories()
         {
             List<string> responseList = new List<string>();
+            List<decimal> decimalResponseList = new List<decimal>();
 
             // var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/latest?apikey=5470ff823cd34acc9c596841a07bb9a2"); // Todas as moedas
             // var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/currency-symbols"); // Todos as abreveações das moedas
@@ -36,23 +37,27 @@ namespace BankTransfer
 
             System.Console.WriteLine();
 
+            // removing undesired characters
             for (int i = 0; i < responseList.Count; i++)
             {
+                responseList[i] = responseList[i].Replace(".", ",");
                 responseList[i] = responseList[i].Remove(0, 6);
+                responseList[i] = responseList[i].Remove(0, 1);
+                responseList[i] = responseList[i].Remove(responseList[i].Length - 1);
             }
+
             responseList.RemoveRange(0, 2);
             responseList[0] = responseList[0].Remove(0, 9);
-            responseList[11] = responseList[11].Remove(9, 2);
+            responseList[11] = responseList[11].Remove(7, 2);
 
 
-            // print list itens
-            for (int i = 0; i < responseList.Count; i++)
+            for (int x = 0; x < responseList.Count; x++)
             {
-                System.Console.WriteLine(responseList[i]);
+                decimalResponseList.Add(decimal.Parse(responseList[x]));
             }
 
         }
-        
+
         static List<Account> accountList = new List<Account>();
         static async Task Main(string[] args)
         {

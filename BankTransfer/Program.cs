@@ -25,28 +25,25 @@ namespace BankTransfer
             // var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/latest?apikey=5470ff823cd34acc9c596841a07bb9a2"); // Todas as moedas
             // var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/currency-symbols"); // Todos as abreveações das moedas
 
-            var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/latest?apikey=3e8a112f03184081b6d183cd452cac0c&symbols=PKR,GBP,EUR,USD,BRL,BCH,ARS,AUD,BOB,BTC,CNH,CAD");
+            var stringTask = client.GetStringAsync("https://api.currencyfreaks.com/latest?apikey=9670636ebfe6464d9772431ac9a8bdc3&symbols=PKR,GBP,EUR,USD,BRL,BCH,ARS,AUD,BOB,BTC,CNH,CAD");
 
             string msg = await stringTask;
 
             string[] myString = msg.Split(",");
 
             // add items from string[] to list
+            // removing undesired characters
             for (int i = 0; i < myString.Length; i++)
             {
+                myString[i] = myString[i].Replace(".", ",");
+                myString[i] = myString[i].Remove(0, 6);
+                myString[i] = myString[i].Remove(0, 1);
+                myString[i] = myString[i].Remove(myString[i].Length - 2);
                 responseList.Add(myString[i]);
+                
             }
 
             System.Console.WriteLine();
-
-            // removing undesired characters
-            for (int i = 0; i < responseList.Count; i++)
-            {
-                responseList[i] = responseList[i].Replace(".", ",");
-                responseList[i] = responseList[i].Remove(0, 6);
-                responseList[i] = responseList[i].Remove(0, 1);
-                responseList[i] = responseList[i].Remove(responseList[i].Length - 1);
-            }
 
             responseList.RemoveRange(0, 2);
             responseList[0] = responseList[0].Remove(0, 9);

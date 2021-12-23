@@ -39,16 +39,12 @@ namespace BankTransfer
                 myString[i] = myString[i].Remove(0, 6);
                 myString[i] = myString[i].Remove(0, 1);
                 myString[i] = myString[i].Remove(myString[i].Length - 2);
-                responseList.Add(myString[i]);
-                
+                responseList.Add(myString[i]);                
             }
-
-            System.Console.WriteLine();
 
             responseList.RemoveRange(0, 2);
             responseList[0] = responseList[0].Remove(0, 9);
             responseList[11] = responseList[11].Remove(7, 2);
-
 
             for (int x = 0; x < responseList.Count; x++)
             {
